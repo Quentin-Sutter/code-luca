@@ -112,16 +112,29 @@ function ecofp_format_thousands_fr( $value ) {
     return $value;
   }
 
-  // On enlève tout ce qui n'est pas un chiffre
-  $digits = preg_replace('/\D/', '', (string) $value);
+  // On normalise la valeur en conservant le séparateur décimal (virgule ou point)
+  $normalized = preg_replace('/[^0-9,.-]/', '', (string) $value);
+  $normalized = str_replace(',', '.', $normalized);
 
-  // Si on n'a plus rien, on renvoie la valeur brute
-  if ($digits === '') {
+  // On supprime les séparateurs de milliers éventuels (ex.: 12.345,67)
+  if (substr_count($normalized, '.') > 1) {
+    $parts    = explode('.', $normalized);
+    $decimal  = array_pop($parts);
+    $normalized = implode('', $parts) . '.' . $decimal;
+  }
+
+  // Si ce n'est pas numérique après normalisation, on renvoie la valeur brute
+  if (!is_numeric($normalized)) {
     return $value;
   }
 
-  // On ajoute un espace insécable tous les trois chiffres en partant de la droite
-  $formatted = preg_replace('/\B(?=(\d{3})+(?!\d))/', ' ', $digits);
+  // Conversion en float puis formatage FR : espace insécable pour les milliers, virgule pour les décimales
+  $float     = (float) $normalized;
+  $formatted = number_format($float, 3, ',', "\xC2\xA0");
+
+  // Suppression des décimales inutiles
+  $formatted = rtrim($formatted, '0');
+  $formatted = rtrim($formatted, ',');
 
   return $formatted;
 }
@@ -724,4 +737,3 @@ add_shortcode('eco_fiche_debug', function($atts){
   if(!$e) return 'Entrée inconnue.';
   ob_start(); echo '<pre>'; print_r($e->metas); echo '</pre>'; return ob_get_clean();
 });
-
