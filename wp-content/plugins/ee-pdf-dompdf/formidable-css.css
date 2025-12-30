@@ -1,0 +1,1375 @@
+/* Coupe toutes les ombres Formidable partout */
+body .frm_forms input,
+body .frm_forms textarea,
+body .frm_forms select,
+body [id^="frm_form_"] input[id^="field_"],
+body [id^="frm_form_"] textarea[id^="field_"],
+body [id^="frm_form_"] select[id^="field_"]{
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* —— palette réglable —— */	
+:root{
+  --ff-border:#D8DEE5;
+  --ff-border-focus:#B9C7D5;
+  --ff-focus-shadow:0 4px 12px rgba(120,150,180,.12), 0 0 0 2px rgba(160,185,210,.15);
+  --ff-radius:8px;
+}
+
+/* champs texte / email / tel / number / password / date / textarea / select */
+body .frm_forms input[type="text"],
+body .frm_forms input[type="email"],
+body .frm_forms input[type="tel"],
+body .frm_forms input[type="number"],
+body .frm_forms input[type="url"],
+body .frm_forms input[type="password"],
+body .frm_forms input[type="search"],
+body .frm_forms input[type="date"],
+body .frm_forms input[type="time"],
+body .frm_forms input[type="datetime-local"],
+body .frm_forms textarea,
+body .frm_forms select{
+  width:100%;
+  min-height:42px;
+  padding:.7rem .9rem;
+  border:1px solid var(--ff-border) !important;
+  border-radius:var(--ff-radius) !important;
+  background:#fff;
+  outline:none !important;
+  transition:box-shadow .25s ease, border-color .25s ease, background-color .25s ease;
+}
+
+body .frm_forms ::placeholder{ color:#98A2B3; opacity:1; }
+
+body .frm_forms input:hover,
+body .frm_forms textarea:hover,
+body .frm_forms select:hover{
+  border-color: color-mix(in srgb, var(--ff-border) 70%, #90A4B8) !important;
+}
+
+body .frm_forms input:focus,
+body .frm_forms textarea:focus,
+body .frm_forms select:focus{
+  border-color:var(--ff-border-focus) !important;
+  box-shadow:var(--ff-focus-shadow) !important;
+  background:#fff !important;
+}
+
+/* erreurs Formidable */
+body .frm_forms input.frm_error,
+body .frm_forms textarea.frm_error,
+body .frm_forms select.frm_error{
+  border-color:#E2726E !important;
+  box-shadow:0 0 0 2px rgba(226,114,110,.15) !important;
+}
+body .frm_forms .frm_inline_error,
+body .frm_forms .frm_error_text{ color:#B42318; font-size:.9rem; margin-top:.35rem; }
+
+/* select : chevron propre */
+body .frm_forms select{
+  appearance:none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #9AA6B2 50%),
+    linear-gradient(135deg, #9AA6B2 50%, transparent 50%),
+    linear-gradient(to right, transparent, transparent);
+  background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%, 100% 0;
+  background-size: 6px 6px, 6px 6px, 2.5rem 100%;
+  background-repeat:no-repeat;
+  padding-right:2.5rem;
+}
+
+/* file input */
+body .frm_forms input[type="file"]{
+  border:1px dashed var(--ff-border) !important;
+  background:#FBFDFF;
+  padding:.6rem .9rem;
+}
+
+/* checkbox / radio */
+body .frm_forms input[type="checkbox"],
+body .frm_forms input[type="radio"]{ accent-color: var(--ff-border-focus); }
+
+/* Conteneur listing */
+.fiches-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+/* Carte */
+.fiche-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 22px;
+  background:#fff;
+  border:1px solid rgba(15,23,42,.12);
+  border-radius:14px;
+  box-shadow:0 1px 1px rgba(30,64,175,.05), 0 8px 24px rgba(30,64,175,.06);
+  transition:box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+}
+.fiche-card:hover{
+  border-color:rgba(30,64,175,.18);
+  box-shadow:0 2px 6px rgba(30,64,175,.08), 0 14px 32px rgba(30,64,175,.10);
+  transform:translateY(-1px);
+}
+
+/* Colonnage */
+.fiche-left{ font-weight:600; color:#111; white-space:nowrap; padding-right:18px; }
+.fiche-right{ text-transform:uppercase; font-weight:700; color:#000; text-decoration:none; }
+
+/* Mobile */
+@media (max-width:640px){
+  .fiche-card{ flex-wrap:wrap; gap:8px; }
+  .fiche-right{ width:100%; }
+}
+
+/* ———————————————————————————————
+   CARTES "Fiches" : hover = mêmes effets que les inputs
+   ——————————————————————————————— */
+
+/* base : utilise les mêmes variables que les inputs */
+.fiche-card{
+  border: 1px solid var(--ff-border) !important;
+  box-shadow: 0 1px 1px rgba(30,64,175,.05), 0 8px 24px rgba(30,64,175,.06);
+  transform: translateY(0) scale(1);
+  transition:
+    border-color .25s ease,
+    box-shadow .25s ease,
+    transform .18s ease;           /* un poil plus vif pour le scale */
+  will-change: transform, box-shadow, border-color;
+  transform-origin: center;
+}
+
+/* même "over" que les inputs + léger scale */
+.fiche-card:hover,
+.fiche-card:focus-within {         /* accessibilité clavier */
+  border-color: var(--ff-border-focus) !important;
+  box-shadow: var(--ff-focus-shadow) !important;
+  transform: translateY(-1px) scale(1.015);
+}
+
+/* au clic (tap) : réduit très légèrement pour un feedback */
+.fiche-card:active{
+  transform: translateY(0) scale(0.995);
+}
+
+/* évite que le lien interne change la couleur/ombre au hover séparément */
+.fiche-card a{
+  color: inherit;
+  text-decoration: none;
+}
+
+/* réduit les animations si l’utilisateur préfère */
+@media (prefers-reduced-motion: reduce){
+  .fiche-card{ transition: border-color .25s ease, box-shadow .25s ease; }
+  .fiche-card:hover,
+  .fiche-card:focus-within{ transform: none; }
+}
+
+/* ———————————————————————————————
+   ESPACE ENTRE LES CARTES (respiration)
+   ——————————————————————————————— */
+.fiches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px; /* espace normal entre les cartes */
+  margin-top: 18px;
+  transition: gap .25s ease;
+}
+
+/* quand on survole une carte, les autres restent à distance
+   mais la carte survolée rétrécit très légèrement l’écart */
+.fiche-card:hover {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+/* évite que ça bouge tout le layout pendant le hover */
+.fiches-list:hover .fiche-card {
+  transition: margin .25s ease;
+}
+
+/* espace universel sans conteneur */
+.fiche-card{
+  margin-block:10px;          /* 10px au-dessus et en dessous */
+  transition: margin .25s ease, transform .18s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* réduit très légèrement l’écart au hover pour l’effet vivant */
+.fiche-card:hover,
+.fiche-card:focus-within{
+  margin-block:3px;
+}
+
+/* alternative ultra-stable : espace seulement entre voisines */
+.fiche-card + .fiche-card{ margin-top:14px; }
+.fiche-card:hover{ margin-top:8px; }      /* ressenti similaire */
+
+/* —— palette réutilisée —— */
+:root{
+  --ff-border:#D8DEE5;
+  --ff-border-focus:#B9C7D5;
+  --ff-focus-shadow:0 4px 12px rgba(120,150,180,.12), 0 0 0 2px rgba(160,185,210,.15);
+  --ff-radius:12px;
+}
+
+/* —— FEUILLE / CADRE —— */
+.fiche-page{
+  /* largeur façon A4 confort écran */
+  max-width: 940px;
+  margin: 24px auto 56px;
+  padding: 28px;
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius);
+  background: #fff;
+  box-shadow: var(--ff-focus-shadow);
+  box-sizing: border-box;
+}
+
+/* si tu gardes .fiche-wrapper, on neutralise son padding/fond à l’intérieur du cadre */
+.fiche-page .fiche-wrapper{ padding:0; background:transparent; max-width:100%; }
+
+
+/* HEADER : méta à gauche, logo poussé à droite */
+.fiche-header{
+  display:flex; gap:36px; align-items:flex-start; text-align:left;
+}
+.fiche-header > img{ margin-left:auto; height:36px; width:auto; display:block; }
+.fiche-header p{ margin:0; text-align:left; } /* au cas où Elementor injecte des  */
+
+/* Impression : pas d’ombre, marges propres */
+@media print{
+  body{ background:#fff !important; }
+  .fiche-page{
+    margin:0; padding:12mm; box-shadow:none; border:1px solid #ddd; max-width:none;
+  }
+}
+
+/* =========================
+   PAGE "FEUILLE" + PADDING
+   ========================= */
+:root{
+  /* mêmes teintes que tes inputs */
+  --ff-border:#D8DEE5;
+  --ff-border-focus:#B9C7D5;
+  --ff-focus-shadow:0 4px 12px rgba(120,150,180,.12), 0 0 0 2px rgba(160,185,210,.15);
+  --ff-radius:12px;
+}
+
+/* cadre type A4 et respiration intérieure */
+.fiche-page{
+  --paper-w: 980px;                          /* largeur visuelle */
+  --paper-pad: clamp(44px, 8vw, 64px);       /* + d’air tout autour */
+  max-width: var(--paper-w);
+  margin: 28px auto 60px;
+  padding: var(--paper-pad);
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius);
+  background:#fff;
+  box-shadow: var(--ff-focus-shadow);
+  box-sizing:border-box;
+}
+
+/* éviter le double padding interne */
+.fiche-page .fiche-wrapper{ padding:0 !important; background:transparent !important; }
+
+/* les séparateurs restent à fleur du cadre (pas de débord latéral) */
+.fiche-page .fiche-sep{ margin-left:0; margin-right:0; }
+
+/* respirations globales */
+.fiche-title{ margin: 12px 0 8px !important; }
+.zone{ margin: 30px 0 22px !important; }
+.photos{ margin-top: 40px !important; }
+
+/* print : pas d’ombre, marges propres */
+@media print{
+  body{ background:#fff !important; }
+  .fiche-page{
+    margin:0 !important;
+    padding:12mm !important;
+    box-shadow:none !important;
+    border:1px solid #ddd !important;
+    max-width:none !important;
+  }
+}
+
+/* =========================================
+   HEADER : MÉTA À GAUCHE / LOGO À DROITE
+   (on force côté global pour battre Elementor)
+   ========================================= */
+.fiche-header{
+  display:grid !important;
+  grid-template-columns: 1fr auto !important;  /* contenu prend l’espace, logo garde sa largeur */
+  align-items:start !important;
+  column-gap:36px !important;
+  text-align:left !important;
+}
+
+.fiche-header > *{ margin:0 !important; }      /* no marges fantômes */
+
+.fiche-header .fiche-meta{
+  grid-column:1 !important;
+  justify-self:start !important;
+  text-align:left !important;
+  line-height:1.45;
+  font-size:16px;
+  min-width:0;
+}
+
+/* le logo va sagement à droite, promis juré */
+.fiche-header .fiche-logo,
+.fiche-header > img.fiche-logo{
+  grid-column:2 !important;
+  justify-self:end !important;
+  align-self:start !important;
+  height:20px !important;                      /* un poil plus grand si tu veux */
+  width:auto !important;
+  max-width:200px !important;
+  margin:0 !important;
+}
+
+/* si Elementor met le logo dans un , on neutralise */
+.fiche-header p{ margin:0 !important; text-align:left !important; }
+
+/* mobile : on empile, et on peut garder le logo à droite si tu aimes */
+@media (max-width:820px){
+  .fiche-header{ grid-template-columns: 1fr !important; row-gap:10px; }
+  .fiche-header .fiche-logo{ justify-self:end !important; } /* mets start si tu préfères à gauche */
+}
+
+/* =========================
+   FEUILLE & TYPO RESPONSIVE
+   ========================= */
+
+/* padding interne qui s'adapte déjà bien */
+.fiche-page{
+  --paper-w: 980px;
+  --paper-pad: clamp(28px, 6vw, 64px); /* un peu plus serré en mobile */
+  max-width: var(--paper-w);
+  margin: clamp(16px, 4vw, 32px) auto clamp(36px, 6vw, 60px);
+  padding: var(--paper-pad);
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius);
+  background:#fff;
+  box-shadow: var(--ff-focus-shadow);
+  box-sizing:border-box;
+}
+
+/* titre fluide (évite le giga-titre en mobile) */
+.fiche-title{
+  font-size: clamp(16px, 4vw, 46px) !important;
+  line-height: 1.05;
+  margin: clamp(8px, 2vw, 14px) 0 clamp(6px, 1.5vw, 10px) !important;
+}
+
+/* =========================
+   HEADER : LOGO DOMPTÉ 😼
+   ========================= */
+:root{
+  --logo-h: clamp(28px, 4vw, 54px);  /* hauteur mini / fluide / maxi */
+}
+
+.fiche-header{
+  display:grid !important;
+  grid-template-columns: 1fr auto !important;
+  align-items:start !important;
+  column-gap:36px !important;
+  text-align:left !important;
+	padding-bottom:5% !important;
+}
+
+.fiche-header > *{ margin:0 !important; }
+
+.fiche-header .fiche-meta{
+  grid-column:1 !important;
+  justify-self:start !important;
+  text-align:left !important;
+  line-height:1.45;
+  min-width:0;
+}
+
+/* ⬇️ Le secret anti-Elementor : width:auto + max-height + object-fit */
+.fiche-header img.fiche-logo,
+.fiche-header .fiche-logo{
+  grid-column:2 !important;
+  justify-self:end !important;
+  align-self:start !important;
+  height: var(--logo-h) !important;     /* taille contrôlée */
+  max-height: var(--logo-h) !important;
+  width: auto !important;               /* jamais 100% */
+  max-width: clamp(120px, 24vw, 260px) !important;
+  object-fit: contain !important;       /* garde les proportions */
+  display: block !important;
+  margin: 0 !important;
+}
+
+/* si Elementor a mis le logo dans un , on neutralise tout centrage/marge */
+.fiche-header p{ margin:0 !important; text-align:left !important; }
+
+/* Empilement propre en mobile */
+@media (max-width: 820px){
+  .fiche-header{ grid-template-columns: 1fr !important; row-gap:12px !important; }
+  .fiche-header .fiche-logo{ justify-self:end !important; } /* mets start si tu préfères */
+}
+
+/* =========================
+   GRILLES RESPONSIVE
+   ========================= */
+
+/* Zone head (ZONE X / ÉLIGIBLE) */
+.zone-head{
+  display:grid; grid-template-columns: 1fr 1fr; align-items:center; column-gap:36px;
+}
+@media (max-width: 900px){
+  .zone-head{ grid-template-columns: 1fr; row-gap: 6px; }
+  .zone-right{ justify-self:start; } /* ou end si tu veux la garder à droite */
+}
+
+/* KV2 : 2 colonnes → 1 colonne en dessous de 1024px */
+.kv2{
+  display:grid; grid-template-columns: 1fr 1fr; column-gap:36px; row-gap:20px; margin: 8px 0 16px;
+}
+.kv2 .col{
+  display:grid; grid-template-columns: auto 1fr; column-gap:18px; row-gap:12px; align-items:baseline;
+}
+@media (max-width: 1024px){
+  .kv2{ grid-template-columns: 1fr; }
+}
+
+/* Un peu moins d’air sur très petit écran pour rester lisible */
+@media (max-width: 560px){
+  .fiche-page{ --paper-pad: 20px; }
+  .kv2 .col{ column-gap:14px; row-gap:10px; }
+}
+
+/* Photos : grille qui se replie joliment */
+.ft-photos{ display:grid; gap:24px; grid-template-columns: repeat(4, minmax(0,1fr)); }
+@media (max-width: 1024px){ .ft-photos{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 560px){  .ft-photos{ grid-template-columns: 1fr; } }
+
+/* Séparateur à fleur du cadre */
+.fiche-page .fiche-sep{ margin-left:0; margin-right:0; }
+
+/* ======= SECURITÉS ANTI-DÉBORDEMENT ======= */
+.fiche-page, .fiche-page * { box-sizing: border-box; }
+.fiche-page img { max-width: 100% !important; height: auto !important; }
+.kv2 .k, .kv2 .v { overflow-wrap: anywhere; word-break: break-word; }
+
+/* ======= GRILLES & TITRES RESPONSIVE (OVERRIDES) ======= */
+
+/* 1) Header : empilement et logo fluide */
+@media (max-width: 820px){
+  .fiche-header{ grid-template-columns: 1fr !important; row-gap:12px !important; }
+  .fiche-header .fiche-logo{ justify-self:end !important; }
+}
+
+/* 2) Zone head : 2→1 colonne, ÉLIGIBLE passe dessous et à gauche */
+.zone-head{ display:grid; grid-template-columns: 1fr 1fr; column-gap:36px; }
+@media (max-width: 900px){
+  .zone-head{ grid-template-columns: 1fr !important; row-gap: 6px !important; }
+  .zone-right{ justify-self:start !important; } /* à droite ? remplace par end */
+}
+
+/* 👉 OPTION : masquer “ÉLIGIBLE” sur très petit écran (la Conclusion le répète) */
+@media (max-width: 560px){
+  .zone-right{ display:none !important; }
+}
+
+/* 3) KV2 : forcer le passage en 1 colonne + resserrer un peu les gaps */
+.kv2{
+  display:grid; grid-template-columns: 1fr 1fr; column-gap:36px; row-gap:20px;
+}
+.kv2 .col{
+  display:grid; grid-template-columns: auto 1fr; column-gap:18px; row-gap:12px; align-items:baseline;
+}
+@media (max-width: 1024px){
+  .kv2{ grid-template-columns: 1fr !important; row-gap:16px !important; }
+}
+
+/* 4) Padding interne et typographies plus sages en mobile */
+@media (max-width: 560px){
+  .fiche-page{ padding: 20px !important; }
+  .kv2 .col{ column-gap:14px !important; row-gap:10px !important; }
+  .fiche-title{ font-size: clamp(24px, 7vw, 32px) !important; }
+}
+
+/* 5) Photos : repli propre */
+.ft-photos{ display:grid; gap:24px; grid-template-columns: repeat(4, minmax(0,1fr)); }
+@media (max-width: 1024px){ .ft-photos{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; } }
+@media (max-width: 560px){  .ft-photos{ grid-template-columns: 1fr !important; } }
+
+/* 6) Séparateurs à fleur du cadre */
+.fiche-page .fiche-sep{ margin-left:0 !important; margin-right:0 !important; }
+
+/* ================================
+   TYPO FLUIDE + LOGO RESPONSIVE
+   ================================ */
+
+/* Échelle de base (desktop → mobile) */
+:root{
+  --fz-base: clamp(16px, 1.6vw, 18px);      /* texte courant */
+  --fz-k:    clamp(16px, 1.5vw, 18px);      /* libellés (k) */
+  --fz-v:    clamp(16px, 1.7vw, 20px);      /* valeurs (v) */
+  --fz-h1:   clamp(28px, 4vw, 56px);        /* FICHE TECHNIQUE */
+}
+
+/* applique la base */
+.fiche-page{ font-size: var(--fz-base); }
+.kv2 .k{ font-size: var(--fz-k); }
+.kv2 .v{ font-size: var(--fz-v); }
+.fiche-title{ font-size: var(--fz-h1) !important; }
+
+/* Logo qui suit la largeur : ~18–36px */
+.fiche-header .fiche-logo{ height: clamp(18px, 2.2vw, 36px) !important; width:auto !important; }
+
+/* Réduction supplémentaire en mobile */
+@media (max-width: 560px){
+  :root{
+    --fz-base: 15px;
+    --fz-k:    15px;
+    --fz-v:    15px;
+    --fz-h1:   30px;
+  }
+}
+
+/* =================================================
+   GRILLES QUI SE REPLIENT + ANTI-DÉBORDEMENTS
+   ================================================= */
+
+/* Zone head : 2 colonnes → 1 colonne en dessous de 900px */
+.zone-head{
+  display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  align-items:center; column-gap:36px;
+}
+@media (max-width: 900px){
+  .zone-head{ grid-template-columns: 1fr; row-gap:6px; }
+  .zone-right{ justify-self:start; }  /* passe sous "ZONE X" */
+}
+
+/* Option : masquer le gros “ÉLIGIBLE” en très petit écran */
+@media (max-width: 560px){
+  .zone-right{ display:none; }
+}
+
+/* KV2 : 2 colonnes → 1 colonne &lt; 1024px */
+.kv2{
+  display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  column-gap:36px; row-gap:20px; margin:8px 0 16px;
+}
+@media (max-width:1024px){
+  .kv2{ grid-template-columns: 1fr; }
+}
+
+/* Chaque colonne K/V : labels + valeurs, et surtout pas de dépassement */
+.kv2 .col{
+  display:grid; grid-template-columns: auto minmax(0,1fr);
+  column-gap:18px; row-gap:12px; align-items:baseline;
+}
+.kv2 .k, .kv2 .v{ min-width:0; }                    /* laisse la ligne rapetisser */
+.kv2 .v{ overflow-wrap:anywhere; word-break:break-word; }
+
+/* Photos : 4 → 2 → 1 */
+.ft-photos{ display:grid; gap:24px; grid-template-columns: repeat(4, minmax(0,1fr)); }
+@media (max-width:1024px){ .ft-photos{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width:560px){  .ft-photos{ grid-template-columns: 1fr; } }
+
+/* Pad interne un peu réduit en très petit écran pour garder la lisibilité */
+@media (max-width:560px){
+  .fiche-page{ --paper-pad: 20px; padding: var(--paper-pad) !important; }
+}
+
+/* Séparateur à fleur du cadre (évite le débord visuel) */
+.fiche-page .fiche-sep{ margin-left:0; margin-right:0; }
+
+/* === FICHE META — reset + typo fluide + anti-débordement === */
+
+/* 1) Le header garde bien une colonne flexible pour la méta */
+.fiche-header{
+  grid-template-columns: minmax(0,1fr) auto !important;
+}
+
+/* 2) La méta : taille fluide et wrap correct */
+.fiche-header .fiche-meta{
+  font-size: clamp(15px, 1.45vw, 18px) !important;
+  line-height: 1.35 !important;
+  min-width: 0 !important;      /* autorise le wrap */
+  max-width: 100% !important;
+  display: grid;                 /* joli empilement des lignes */
+  row-gap: 6px;
+  text-align: left !important;
+}
+
+/* 3) On neutralise les tailles/marges injectées par Elementor à l’intérieur */
+.fiche-header .fiche-meta :where(p, div, span, strong, em){
+  font: inherit !important;      /* récupère la font-size du parent */
+  margin: 0 !important;
+}
+.fiche-header .fiche-meta strong{ font-weight: 700 !important; }
+
+/* 4) Un cran plus compact en très petit écran */
+@media (max-width: 560px){
+  .fiche-header .fiche-meta{
+    font-size: 14px !important;
+    row-gap: 4px;
+  }
+}
+.fiche-page {
+  background: none !important;
+}
+
+/* ——— écran : rien de spécial ——— */
+.fiche-title{ text-align:center !important; }
+
+/* PDF CTA — coupe tout ce qui gonfle la hauteur */
+.pdf-cta{display:flex;justify-content:center;align-items:center;margin:28px 0 40px;}
+.pdf-cta > p{margin:0 !important; line-height:0 !important; padding:0 !important;}
+.pdf-cta br{display:none !important;}                    /* &lt;-- tue les  parasites */
+
+/* Le lien en lui-même (classes actuelles) */
+.pdf-cta a.ff-btn{                                       
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:10px 20px; border:0; border-radius:9999px;
+  background:#0f0f0f; color:#fff; text-decoration:none;
+  box-shadow:0 14px 32px rgba(0,0,0,.18);
+  font:800 16px/1 system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  letter-spacing:.02em; text-transform:uppercase;
+  line-height:1 !important;                              /* centrage vertical propre */
+  transition:transform .15s ease, box-shadow .2s ease, filter .2s ease;
+}
+.pdf-cta a.ff-btn:hover{ transform:translateY(-1px); box-shadow:0 18px 38px rgba(0,0,0,.22); }
+
+/* neutralise juste le soulignement, ne touche pas au fond */
+.ff-btn:where(:link,:visited,:hover,:active,:focus){
+	color: black !important;
+  text-decoration: none !important;
+}
+
+/* blindage couleur/fond/bordure des boutons */
+.cta-row .ff-btn,
+.pdf-cta a.ff-btn,
+.ff-btn{
+  background:#0f0f0f !important;
+  color:#fff !important;
+  border:0 !important;
+}
+
+
+/* Impression : pas de bouton */
+@media print{ .pdf-cta{ display:none !important; } }
+
+/* ——— rangée de CTA : 3 colonnes, même largeur, centrées ——— */
+:root{ --cta-w: 560px; }                 /* largeur identique pour tous */
+
+.cta-row{
+  display: grid;
+  grid-template-columns: repeat(3, var(--cta-w));
+  justify-content: center;               /* centre l’ensemble */
+  gap: 28px;                             /* espace horizontal */
+  margin: 36px 0 64px;
+}
+
+/* boutons — style noir “pill” identique */
+.ff-btn{
+  appearance: none; -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;                   /* évite l’alignement baseline chelou */
+  justify-content: center;
+  width: var(--cta-w);                   /* même largeur, quel que soit le texte */
+  min-height: 44px;                      /* hauteur constante */
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 9999px;
+  background: #0f0f0f;
+  color: #fff !important;
+  font: 800 16px/1 system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  box-shadow: 0 18px 38px rgba(0,0,0,.12);
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease, filter .2s ease;
+}
+
+.ff-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 22px 44px rgba(0,0,0,.16);
+}
+
+/* variante danger : rouge au hover uniquement */
+.ff-btn--danger:hover{
+  background: #cf2e2e;                   /* rouge Elementor “classique”, lisible */
+}
+
+/* neutralise d’éventuels styles de liens globaux */
+.ff-btn:where(:link,:visited,:hover,:active,:focus){
+  color:#fff !important;
+  text-decoration:none !important;
+  background:inherit !important;
+}
+
+/* ——— responsive ——— */
+@media (max-width: 1280px){
+  :root{ --cta-w: 520px; }
+}
+
+@media (max-width: 1024px){
+  :root{ --cta-w: 460px; }
+}
+
+@media (max-width: 900px){
+  .cta-row{
+    grid-template-columns: 1fr;          /* empile 1 par ligne */
+    row-gap: 20px;
+  }
+  .cta-row > .ff-btn{
+    width: min(92vw, var(--cta-w));      /* garde la même “largeur cible”, mais s’adapte */
+    justify-self: center;                /* parfaitement centré */
+  }
+}
+
+/* === CTA buttons — final, consistent === */
+:root{ --cta-w:560px; }                  /* identical width for all buttons */
+
+.fiche-actions{
+  display:grid;
+  grid-template-columns:repeat(3, var(--cta-w));
+  justify-content:center;
+  gap:28px;
+  margin:36px 0 64px;
+}
+
+/* Elementor/Formidable inject  between links → hide them */
+.fiche-actions br{ display:none !important; }
+/* if a  wrapper sneaks in and is empty, hide it too */
+.fiche-actions > p:empty{ display:none !important; }
+
+/* Base pill button */
+.fiche-actions .ff-btn,
+.pdf-cta .ff-btn,
+.ff-btn{
+  appearance:none; -webkit-appearance:none;
+  display:inline-flex; align-items:center; justify-content:center;
+  width:var(--cta-w); min-height:64px;
+  padding:16px 32px; border:0; border-radius:9999px;
+  background:#0f0f0f; color:#fff;
+  font:800 16px/1 system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  letter-spacing:.02em; text-transform:uppercase; text-decoration:none;
+  box-shadow:0 18px 38px rgba(0,0,0,.12);
+  transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+}
+.fiche-actions .ff-btn:hover{ transform:translateY(-1px); box-shadow:0 22px 44px rgba(0,0,0,.16); }
+
+/* Danger variant turns red only on hover */
+.fiche-actions .ff-btn--danger:hover{ background:#cf2e2e; }
+
+/* Strongest override for “link states” (replaces the bad inherit) */
+.fiche-actions .ff-btn:where(:link,:visited,:hover,:active,:focus),
+.pdf-cta .ff-btn:where(:link,:visited,:hover,:active,:focus),
+.ff-btn:where(:link,:visited,:hover,:active,:focus){
+  background:#0f0f0f !important;
+  color:#fff !important;
+  text-decoration:none !important;
+}
+
+/* PDF single CTA wrapper (keeps height tidy) */
+.pdf-cta{ display:flex; justify-content:center; align-items:center; margin:28px 0 40px; }
+.pdf-cta > p{ margin:0 !important; line-height:0 !important; padding:0 !important; }
+.pdf-cta br{ display:none !important; }
+
+/* Responsive: stack nicely and stay centered */
+@media (max-width:900px){
+  .fiche-actions{ grid-template-columns:1fr; row-gap:20px; }
+  .fiche-actions .ff-btn{ width:min(92vw, var(--cta-w)); justify-self:center; }
+}
+
+.ff-btn{
+  min-height:56px;      /* au lieu de 64px */
+  padding:14px 32px;    /* au lieu de 16px 32px */
+}
+
+/* ========== Répéteurs LIBRES (mettre la classe "rep-free" sur le champ répéteur) ========== */
+
+/* Barre visible et centrée */
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons:not(.frm_hidden){
+  display:flex !important; justify-content:center; align-items:center;
+  gap:12px; padding:16px 0;
+}
+
+/* On neutralise TOUT le maquillage du thème/Formidable */
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(a,button,i,svg,path){
+  background:none !important; border:0 !important; box-shadow:none !important;
+  text-shadow:none !important; color:inherit !important; opacity:1 !important;
+  outline:0 !important;
+}
+/* …y compris les anneaux ajoutés par des pseudo-éléments */
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(a,button)::before,
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(a,button)::after{
+  content:none !important; background:none !important; border:0 !important; box-shadow:none !important;
+}
+
+/* Nos vrais ronds + / – */
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(a,button).frm_add_form_row,
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(a,button).frm_remove_form_row{
+  display:inline-flex !important; align-items:center; justify-content:center;
+  width:44px; height:44px; border-radius:9999px;
+  background:#111 !important; color:#fff !important;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+
+/* Icône blanche (FA/SVG) */
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(i,svg,path){
+  color:#fff !important; fill:currentColor !important; stroke:none !important;
+  font-size:18px; width:18px; height:18px; line-height:1;
+}
+
+/* Hover/focus : léger lift, pas de blanchiment */
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(a,button).frm_add_form_row:hover,
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(a,button).frm_remove_form_row:hover,
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(a,button).frm_add_form_row:focus,
+:where(.frm_forms) .frm_form_field.rep-free .frm_repeat_buttons :is(a,button).frm_remove_form_row:focus{
+  transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.25);
+  background:#111 !important; color:#fff !important; opacity:1 !important;
+}
+
+/* Cache propre du “template fantôme” */
+:where(.frm_forms) .frm_form_field.rep-free .frm_toggle_container .frm_repeat_buttons.frm_hidden,
+:where(.frm_forms) .frm_form_field.rep-free .frm_hidden_container{ display:none !important; }
+
+/* ========== Répéteurs VERROUILLÉS (mettre "rep-lock" sur les 5 premiers) ========== */
+:where(.frm_forms) .frm_form_field.rep-lock > .frm_repeat_sec > .frm_repeat_buttons,
+:where(.frm_forms) .frm_form_field.rep-lock > .frm_repeat_sec .frm_add_form_row,
+:where(.frm_forms) .frm_form_field.rep-lock > .frm_repeat_sec .frm_remove_form_row{
+  display:none !important;
+}
+
+/* 1) TUE les barres fantômes / orphelines (les petits boutons) */
+.frm_forms .frm_hidden_container .frm_repeat_buttons,
+.frm_forms .frm_toggle_container .frm_repeat_buttons.frm_hidden,
+.frm_forms .frm_first_repeat .frm_repeat_buttons{
+  display: none !important;
+}
+
+/* 2) NE MONTRE la barre que dans les répéteurs libres (les gros boutons) */
+.frm_forms .rep-free > .frm_repeat_sec > .frm_repeat_buttons:not(.frm_hidden){
+  display: flex !important;
+}
+
+/* 3) Les répéteurs verrouillés restent muets */
+.frm_forms .rep-lock > .frm_repeat_sec > .frm_repeat_buttons{
+  display:none !important;
+}
+
+
+
+
+/* ——— Formidable [frm-login] → styliser le submit WP ——— */
+
+/* 1) Centrer la zone de submit (utile selon les thèmes) */
+form[action*="wp-login.php"] .frm_submit {
+  display: flex;
+  justify-content: center;
+}
+
+/* 2) Bouton "Connexion" = style pill noir comme .ff-btn */
+form[action*="wp-login.php"] #wp-submit,
+form[action*="wp-login.php"] input[type="submit"],
+form[action*="wp-login.php"] .button.button-primary {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 14px 28px;
+  border: 0 !important;
+  border-radius: 9999px;
+  background: #0f0f0f !important;
+  color: #fff !important;
+  font: 800 16px/1 system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  box-shadow: 0 18px 38px rgba(0,0,0,.12);
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease, background .2s ease;
+}
+
+/* 3) États : hover/focus/active → on garde noir + focus ring propre */
+form[action*="wp-login.php"] #wp-submit:hover,
+form[action*="wp-login.php"] .button.button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 22px 44px rgba(0,0,0,.16);
+  background: #0f0f0f !important;
+  color: #fff !important;
+}
+
+form[action*="wp-login.php"] #wp-submit:focus,
+form[action*="wp-login.php"] .button.button-primary:focus {
+  outline: none;
+  /* focus ring accessible : halo double contrasté */
+  box-shadow:
+    0 0 0 3px #fff,
+    0 0 0 5px #0f0f0f,
+    0 18px 38px rgba(0,0,0,.12) !important;
+  background: #0f0f0f !important;
+  color: #fff !important;
+}
+
+form[action*="wp-login.php"] #wp-submit:active,
+form[action*="wp-login.php"] .button.button-primary:active {
+  transform: translateY(0);
+  filter: brightness(1.02);
+  background: #0f0f0f !important;
+  color: #fff !important;
+}
+
+/* 4) Kill brut des styles parasites que certains thèmes imposent */
+form[action*="wp-login.php"] .button,
+form[action*="wp-login.php"] .button-primary {
+  border-color: transparent !important;
+  background-image: none !important;
+}
+
+/* 5) (optionnel) espace au-dessus de ton bloc de liens "inscription / mdp" */
+.login-helper { margin-top: 14px; text-align: center; }
+.login-helper .btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:10px 20px;border:1px solid #111;border-radius:9999px;
+  background:#0f0f0f;color:#fff;text-decoration:none;
+  font:800 14px/1 system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  text-transform:uppercase;letter-spacing:.02em;
+  transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+}
+
+#link {
+	text-decoration: none;
+	font-weight: bold;
+	color: black;
+}
+
+#link:hover {
+	color: #009a47;
+}
+
+.entry-title {
+	display: none;
+}
+
+.page-header {
+	display: none;
+}
+
+.frm_pos_top.frm_section_spacing {
+  border-top: none !important;      /* retire la ligne */
+  margin-top: 20 !important;         /* supprime le grand espace au-dessus */
+}
+
+.frm_primary_label {
+	margin-top: 20px;
+}
+
+
+:root{ --cta-w:560px; } /* largeur identique aux autres CTA */
+
+/* layout spécifique technicien : centré, 2 colonnes en desktop, pile en mobile */
+.fiche-actions--tech{
+  display:grid;
+  grid-template-columns: 1fr;           /* mobile = pile */
+  justify-content:center;
+  gap:28px;
+  margin:36px 0 64px;
+}
+
+.fiche-actions--tech .ff-btn{
+  width:min(92vw, var(--cta-w));
+  justify-self:center;
+}
+
+/* dès 900px, on passe en 2 colonnes horizontales */
+@media (min-width:900px){
+  .fiche-actions--tech{
+    grid-template-columns: repeat(2, var(--cta-w));
+  }
+  .fiche-actions--tech .ff-btn{
+    width:var(--cta-w);
+  }
+}
+
+.photos a[href*="ajouter-des-photos"]{ display:none !important; }
+.photos a[href*="ajouter-des-photos"] br{ display:none !important; }
+
+/* === CTA: grille auto qui s'adapte au nombre réel de boutons === */
+:root{ --cta-w: 560px; } /* garde ta largeur cible */
+
+.fiche-actions{
+  display: grid;
+  /* crée 2, 3 (ou 1) colonnes selon le nombre d'enfants, sans déborder */
+  grid-template-columns: repeat(auto-fit, minmax(min(92vw, var(--cta-w)), 1fr));
+  justify-content: center;
+  gap: 28px;
+  margin: 36px 0 64px;
+}
+
+/* les boutons remplissent leur cellule (plus de width fixe ici) */
+.fiche-actions .ff-btn{
+  width: 100% !important;
+  min-height: 56px;
+  padding: 14px 32px;
+}
+
+/* mobile: une colonne propre */
+@media (max-width: 900px){
+  .fiche-actions{ grid-template-columns: 1fr; row-gap: 20px; }
+}
+
+/* nettoyages utiles */
+.fiche-actions br{ display:none !important; }
+.fiche-actions > p:empty{ display:none !important; }
+
+.green-numero {
+	color: #009a47;
+}
+
+/* ====== FICHES — LOCK MOBILE/DESKTOP (mettre à la toute fin) ====== */
+:root{
+  --paper-w: 980px;                         /* largeur max du cadre */
+  --edge: clamp(12px, 4vw, 18px);           /* respiration sur bords en mobile */
+}
+
+/* Liste */
+.fiches-list{
+  max-width: var(--paper-w) !important;
+  margin: 18px auto !important;
+  padding-inline: var(--edge) !important;   /* bord à bord maîtrisé en mobile */
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+/* Carte */
+.fiche-card{
+  width: 100% !important;
+  padding: 18px 22px !important;
+  margin: 10px 0 !important;
+  border: 1px solid var(--ff-border) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  box-shadow: 0 1px 1px rgba(30,64,175,.05), 0 8px 24px rgba(30,64,175,.06) !important;
+}
+
+/* Page (vue détail) */
+.fiche-page{
+  width: min(100%, var(--paper-w)) !important;
+  margin: clamp(16px, 4vw, 28px) auto clamp(36px, 6vw, 60px) !important;
+  padding: clamp(16px, 4vw, 24px) !important;
+  border: 1px solid var(--ff-border) !important;
+  border-radius: var(--ff-radius) !important;
+  background: #fff !important;
+  box-shadow: var(--ff-focus-shadow) !important;
+  box-sizing: border-box !important;
+}
+
+/* Nettoyage des wrappers Elementor/Formidable qui rajoutent des marges/paddings */
+.fiche-page .fiche-wrapper,
+.elementor-shortcode > p,
+.elementor-widget-container > p{
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* iOS / zoom parasite (évite un “rétrécissement” visuel au retour) */
+html{ -webkit-text-size-adjust: 100% !important; }
+
+/* ===== LOCK GOUTTIÈRES — À METTRE EN DERNIER ===== */
+
+/* 1) Coupe les paddings latéraux que le widget Elementor remet autour des fiches */
+body .elementor .elementor-shortcode,
+body .elementor .elementor-widget-shortcode,
+body .elementor .elementor-widget-shortcode > .elementor-widget-container,
+body .elementor .elementor-container,
+body .elementor .elementor-column-gap-default > .elementor-row > .elementor-column > .elementor-element-populated{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* 2) Le lien wrapper généré par Formidable autour des cartes (vue liste) */
+a.frm-detail-link{
+  display: block;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+}
+
+/* 3) Elementor adore entourer les shortcodes d’un  avec margin */
+.elementor-shortcode > p,
+.elementor-widget-container > p{
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 4) Verrou mobile : même respiration pour la liste et la page (petit edge) */
+:root{ --edge: clamp(12px, 4vw, 18px); }
+
+@media (max-width: 768px){
+  .fiches-list,
+  .fiche-page{
+    padding-left: var(--edge) !important;
+    padding-right: var(--edge) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* 5) Petit bonus iOS : évite les reflows/zoom texte qui rétrécissent visuellement */
+html{ -webkit-text-size-adjust: 100% !important; }
+
+/* ===== AUTOUR DU WIDGET SHORTCODE (Elementor) ===== */
+
+/* 1) Couper le "boxed" + padding du conteneur qui entoure le shortcode */
+.elementor-section.elementor-section-boxed .elementor-container:has(.elementor-widget-shortcode){
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Alternative sans :has() (au cas où) — cible *spécifiquement* ton widget */
+.elementor-element-cf93e12 .elementor-widget-container{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.elementor-element-cf93e12 { /* force le conteneur du widget à s'étendre */
+  --e-container-content-width: 100% !important;
+}
+
+/* 2) À l’intérieur du widget : plus aucune gouttière par défaut */
+.elementor-widget-shortcode .elementor-widget-container,
+.elementor-widget-shortcode .elementor-shortcode{
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+/* 3) Les  automatiques autour des liens : on les “aplatit” */
+.elementor-shortcode > p{
+  margin: 0 !important;
+  padding: 0 !important;
+  display: contents;                 /* supprime la boîte sans casser l’accessibilité */
+}
+
+/* 4) Le lien wrapper Formidable doit être bloc et sans bordures/marges */
+a.frm-detail-link{
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+/* 5) Stabiliser la respiration mobile sur tes wrappers internes */
+@media (max-width: 768px){
+  :root{ --edge: clamp(12px, 4vw, 18px); }
+  .fiche-page,
+  .fiches-list{
+    padding-left: var(--edge) !important;
+    padding-right: var(--edge) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Bonus iOS : éviter les reflows “zoom texte” qui rétrécissent visuellement */
+html{ -webkit-text-size-adjust: 100% !important; }
+
+/* ===== FULL-BLEED pour les fiches (liste + détail) ===== */
+
+/* Liste (container avec la classe ajoutée dans Elementor) */
+.cee-fiches.e-con-boxed > .e-con-inner{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: none !important;
+}
+
+/* Détail */
+.cee-fichepage.e-con-boxed > .e-con-inner{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: none !important;
+}
+
+/* Nettoyage des wrappers du widget shortcode */
+.cee-fiches .elementor-widget-container,
+.cee-fichepage .elementor-widget-container,
+.cee-fiches .elementor-shortcode,
+.cee-fichepage .elementor-shortcode{
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+/* Les  automatiques autour des liens Formidable */
+.cee-fiches .elementor-shortcode > p,
+.cee-fichepage .elementor-shortcode > p{
+  margin: 0 !important;
+  padding: 0 !important;
+  display: contents; /* supprime la boîte sans casser le flux */
+}
+
+/* Les liens wrapper des cartes */
+.cee-fiches a.frm-detail-link{
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+/* Respiration mobile cohérente à l’intérieur de tes composants */
+@media (max-width: 768px){
+  :root{ --edge: clamp(12px, 4vw, 18px); }
+  .fiche-page,
+  .fiches-list{
+    padding-left: var(--edge) !important;
+    padding-right: var(--edge) !important;
+    box-sizing: border-box !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* iOS anti-zoom texte (évite l’effet "rétréci") */
+html{ -webkit-text-size-adjust: 100% !important; }
+
+/* ===== Fiches — verrou anti-gouttières (liste + détail) ===== */
+
+/* 1) Page “fiches” (liste + les URLs /entry/ rendues dans cette page) */
+body.page-id-1631 .e-con-boxed > .e-con-inner{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: none !important;
+}
+
+/* 2) Conteneur du widget shortcode : plus de marges/paddings auto */
+body.page-id-1631 .elementor-widget-container,
+body.page-id-1631 .elementor-shortcode{
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+/* 3)  automatiques autour des liens Formidable = aplatis */
+body.page-id-1631 .elementor-shortcode > p{
+  margin: 0 !important;
+  padding: 0 !important;
+  display: contents !important;
+}
+
+/* 4) Le lien wrapper des cartes : bloc et sans gouttière */
+body.page-id-1631 a.frm-detail-link{
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+/* 5) Respiration mobile maîtrisée dans tes composants */
+@media (max-width: 768px){
+  :root{ --edge: clamp(12px, 4vw, 18px); }
+  .fiche-page, .fiches-list{
+    padding-left: var(--edge) !important;
+    padding-right: var(--edge) !important;
+    box-sizing: border-box !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* 6) iOS : pas de zoom texte fantôme */
+html{ -webkit-text-size-adjust: 100% !important; }
+
+/* Détail uniquement (quand le body a la classe posée par ton JS) */
+body.page-id-1631.is-entry .e-con-boxed > .e-con-inner{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ===== HARD-LOCK full-bleed sur liste + détail ===== */
+.cee-fiches.e-con-boxed > .e-con-inner,
+.cee-fichepage.e-con-boxed > .e-con-inner{
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Coupe les gouttières du widget Shortcode et ses  automatiques */
+.elementor-widget-shortcode,
+.elementor-widget-shortcode > .elementor-widget-container{
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.elementor-shortcode > p{ display: contents !important; margin:0 !important; padding:0 !important; }
+
+/* Respiration cohérente en mobile pour la liste ET la fiche */
+:root{ --edge: clamp(12px, 4vw, 18px); }
+@media (max-width: 768px){
+  .fiches-list, .fiche-page{
+    padding-left: var(--edge) !important;
+    padding-right: var(--edge) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* iOS : empêche le “zoom texte” qui donne un effet rétréci au retour */
+html{ -webkit-text-size-adjust: 100% !important; }
+
+/* ===== Cadre liste + détail — VERSION DESKTOP ===== */
+
+@media (min-width: 1024px){
+
+  /* LISTE : wrapper autour des cartes */
+  body.page-id-1631 .cee-fiches{
+    max-width: 1120px !important;          /* ← joue sur cette valeur */
+    margin-left:  auto !important;
+    margin-right: auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
+  }
+  body.page-id-1631 .cee-fiches .fiche-card{
+    width: 100% !important;
+  }
+
+  /* LISTE : le bloc de recherche au-dessus */
+  body.page-id-1631 #js-annuaire{
+    max-width: 1120px !important;          /* même largeur que les cartes */
+    margin-left:  auto !important;
+    margin-right: auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* DÉTAIL : wrapper de la fiche (ta ) */
+  body.page-id-1631.is-entry .cee-fichepage{
+    max-width: 1040px !important;
+    margin-left:  auto !important;
+    margin-right: auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
+  }
+  body.page-id-1631.is-entry .cee-fichepage .fiche-page{
+    width: 100% !important;
+  }
+}
+
+/* Sur très petits écrans, on réduit un peu le padding pour ne pas perdre de place */
+@media (max-width: 480px){
+  .cee-fiches,
+  .cee-fichepage{
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
